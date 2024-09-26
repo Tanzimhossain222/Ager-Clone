@@ -1,7 +1,6 @@
-// set height and width of the canvas
+import { init } from "./canvasStuff.js";
 
-
-// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext
+// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext  (CanvasRenderingContext2D) 
 
 function setCanvasSize() {
   let canvas = document.getElementById("the-canvas");
@@ -16,18 +15,37 @@ function setCanvasSize() {
 const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
 const spawnModal = new bootstrap.Modal(document.getElementById('spawnModal'));
 
-const player = {};
+const orbs = [];
 
-window.addEventListener('load', ()=>{
-  setCanvasSize();
-  loginModal.show();
-})
+export const player = {};
+export const players = [];
 
-document.querySelector('.name-form').addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const name = document.querySelector('#name-input').value;
-  player.name = name;
-  loginModal.hide();
-  spawnModal.show();
-  
-})
+  function initializeUI() {
+  window.addEventListener('load', () => {
+    setCanvasSize();
+    loginModal.show();
+  });
+
+  document.querySelector('.name-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.querySelector('#name-input').value;
+    player.name = name;
+    document.querySelector('.player-name').innerText = name;
+    console.log("name", name);
+    loginModal.hide();
+    spawnModal.show();
+  });
+
+  document.querySelector('.start-game').addEventListener('click', (e) => {
+    spawnModal.hide();
+
+    const elArray = Array.from(document.querySelectorAll('.hiddenOnStart'));
+    elArray.forEach(el => el.removeAttribute('hidden'));
+    init();
+  });
+
+
+}
+
+export { initializeUI, orbs };
+
